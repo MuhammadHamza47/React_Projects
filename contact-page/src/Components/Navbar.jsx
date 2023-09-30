@@ -20,7 +20,7 @@ function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav m-auto"> {/* Use ml-auto to align links to the right */}
+          <ul className="navbar-nav" style={{fontSize:"20px"}}> 
             <li className="nav-item">
               <a className="nav-link" aria-current="page" href="/">
                 Home
