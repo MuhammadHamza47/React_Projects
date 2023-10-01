@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import dices from "../Assets/dices.png";
+import { Button } from "./Styled/Button";
 
 function StartGame({toggle}) {
   return (
@@ -9,7 +10,8 @@ function StartGame({toggle}) {
         <div><img src={dices} alt="" /></div>
         <div className="content">
           <h1>Dice Game </h1>
-          <Button onClick={toggle}>Play Now</Button>
+          <Button
+           onClick={toggle}>Play Now</Button>
         </div>
       </Container>
     </>
@@ -33,25 +35,3 @@ const Container = styled.div`
   }
 
 `;
-const Button = styled.button`
-   color: white;
-   padding: 10px 18px;
-   background: black;
-   border-radius: 5px;
-   min-width: 220px;
-   border: none;
-   font-size: 16px;
-   border: 1px solid transparent;
-   transition: 0.5s background ease-in;
-   cursor: pointer;
-
-
-   &:hover{
-    background-color: white;
-    color: black;
-    border: 1px solid black;
-    transition: 0.3s background ease-in;
-    cursor: pointer;
-
-   }
-`

@@ -6,7 +6,7 @@ import GamePlay from "./Components/GamePlay";
 
 
 function App() {
-  const [isGameStarted, setIsGameStarted] = useState(true);
+  const [isGameStarted, setIsGameStarted] = useState(false);
 
 const togleGamePlay = () =>{
   setIsGameStarted((prev)=> !prev);
