@@ -1,10 +1,11 @@
 // import logo from './logo.svg';
 import './App.css';
+import Herosection from './Components/Herosection';
 
-function App() {
+const App=()=> {
   return (
     <>
-    
+    <Herosection/>
     </>
   );
 }
