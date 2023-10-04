@@ -8,8 +8,10 @@ export const BASE_URL = "http://localhost:9000"
 const Herosection = () => {
 
     const [data, setData] = useState(null);
+    const [filterdData, setFilterdData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [selectedBtn, setSelectedBtn] = useState("all");
 
     
 
@@ -22,55 +24,92 @@ const Herosection = () => {
                 const json = await responce.json();
                 
                 setData(json);
+                setFilterdData(json);
                 setLoading(false);  
             } catch (error) {
-                setError("Unable to fetch date");
+                setError("Unable to fetch data");
             }
             
         };
         fetchFoodData();
     }, []); 
 
-    console.log(data);
+    const searchFood = (e)=>{
+      const searchValue = e.target.value;
+      console.log(searchValue);
 
-    // const temp = [
-    //     {
-    //         "name": "Boilded Egg",
-    //         "price": 10,
-    //         "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-    //         "image": "/images/egg.png",
-    //         "type": "breakfast"
-    //     }
-    // ]
+      if(searchValue === ""){
+        setFilterdData(null);
+      }
 
+      const filter = data?.filter((food) => food.name.toLowerCase().includes(searchValue.toLowerCase())
+      );
+      setFilterdData(filter);
+    };
+
+    const filterFood = (type)=>{
+      if(type === "all"){
+        setFilterdData(data);
+        setSelectedBtn("all"); 
+        return;
+      }
+
+
+      const filter = data?.filter((food) => 
+      food.type.toLowerCase().includes(type.toLowerCase())
+      );
+      setFilterdData(filter);
+      setSelectedBtn(type)
+    };
+
+    const filterBtns = [
+      {
+        name: "All",
+        type: "all",
+      },
+      {
+        name: "Breakfast",
+        type: "breakfast",
+      },
+      {
+        name: "Lunch",
+        type: "lunch",
+      },
+      {
+        name: "Dinner",
+        type: "Dinner",
+      }
+    ]
 
     if (error) return <div>{error}</div>
     if (loading) return <div>Loading.....</div> 
   return (
+    <>
     <Container>
       <TopContainer>
         <div className="logo">
           <img src={logo} alt="" />
         </div>
         <div className="search">
-          <input type="" placeholder="search food..." />
+          <input type="text" onChange={searchFood} placeholder="search food..." />
         </div>
       </TopContainer>
 
       <FilterContainer>
-        <Button>All</Button>
-        <Button>Breakfast</Button>
-        <Button>lunch</Button>
-        <Button>Dinner</Button>
+        {filterBtns.map((value)=>(
+          <Button isSelected={selectedBtn === value.type} key={value.name} onClick={()=> filterFood(value.type) }>{value.name}</Button>
+            
+          ))}
       </FilterContainer>
-      <SearchResult data={data}/>
     </Container>
+    <SearchResult data={filterdData}/>
+    </>
   );
 };
 
 export default Herosection;
 
-const Container = styled.div`
+export const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
 `;
@@ -90,7 +129,15 @@ const TopContainer = styled.section`
       height: 40px;
       font-size: 16px;
       padding: 0 10px;
+      &::placeholder{
+        color: wheat;
+      }
     }
+  }
+
+  @media (0< width <600px){
+    flex-direction: column;
+    height: 120px;
   }
 `;
 
@@ -98,14 +145,19 @@ const FilterContainer = styled.section`
   display: flex;
   justify-content: center;
   gap: 10px;
-  padding-bottom: 30px;
+  padding-bottom: 35px;
 `;
 
-const Button = styled.button`
-  background-color: #ff4343;
+export const Button = styled.button`
+  background-color: ${({isSelected}) => isSelected? "#ce0f0f" : "#FF4343"};
+  outline:1px solid ${({isSelected}) => isSelected? "white" : "#FF4343"};
   color: white;
   border-radius: 5px;
   padding: 6px 12px;
   border: none;
+  cursor: pointer;
+  &:hover{
+    background-color: #ce0f0f;
+  }
 `;
 
